@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     SoundPool highFrequenceSound;
+    private boolean isplay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,8 +15,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         highFrequenceSound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        int sound167khz = highFrequenceSound.load(this, R.raw.167khz, 1);
+        int sound167khz = highFrequenceSound.load(this, R.raw.freq167sound, 1);
         
+    }
+
+    private void playSound(){
+        //soundpool.play(soundload, leftVolume, rightVolume, priority, loop, frequency);
+    }
+
+    private void stopSound(){
+
     }
 
 

@@ -9,8 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dnlab.jiny.highfreq.MainActivity">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="sound play"
+        android:id="@+id/play_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
