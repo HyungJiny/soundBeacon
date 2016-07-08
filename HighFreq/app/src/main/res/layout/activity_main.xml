@@ -14,15 +14,43 @@
         android:layout_height="wrap_content"
         android:text="sound play"
         android:id="@+id/play_button"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frequency_seekBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:max="20000"
+        android:progress="20" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sound stop"
-        android:id="@+id/stop_button"
-        android:layout_below="@+id/play_button"
-        android:layout_alignStart="@+id/play_button"
-        android:singleLine="false" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="20Hz"
+        android:id="@+id/frequency_value_textView"
+        android:layout_below="@+id/frequency_seekBar"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="20kHz"
+        android:id="@+id/max_freq_textView"
+        android:layout_alignBottom="@+id/frequency_value_textView"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="20Hz"
+        android:id="@+id/min_freq_textView"
+        android:layout_alignBottom="@+id/frequency_value_textView"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
