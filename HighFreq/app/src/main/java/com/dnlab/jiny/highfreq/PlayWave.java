@@ -23,9 +23,9 @@ public class PlayWave {
     public void setWave(int frequency){
         sampleCount = (int) ((float) SAMPLE_RATE / frequency);
         short samples[] = new short[sampleCount];
-        int amplitude = 32767;
+        int amplitude = 32767; // max size is 32767 = 2^15 - 1 = Short.MAX_VALUE
         double twopi = 2. * Math.PI;
-//        double twopi = 8. * Math.atan(1.);
+//      double twopi = 8. * Math.atan(1.);
         double phase = 0.0;
 
         for(int i = 0; i < sampleCount; i++){

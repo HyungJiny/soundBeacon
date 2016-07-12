@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!isplay){
                     playWave.start();
                     isplay = true;
+                    //sineGenerator((int) frequencyOfTune, 10);
                 }
             }
         });
@@ -79,32 +80,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void sineGenerator(int frequency, int duration){
-//        // 44100 is the equivalent of 1 second
-//        // ex) play(1500, 44100) => play a 1500Hz sound for one second
-//
-//        int playDuration = duration * 44100; // change second to duration
-//        int bufferSize = AudioTrack.getMinBufferSize(44100,
-//                AudioFormat.CHANNEL_OUT_MONO,
-//                AudioFormat.ENCODING_PCM_8BIT);
-//
-//        AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
-//                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
-//                bufferSize, AudioTrack.MODE_STREAM);
-//
-//        // sine wave
-//        double[] sinSound = new double[44100];
-//        short[] sinBuffer = new short[playDuration];
-//        for(int i = 0; i < sinSound.length; i++){
-//            sinSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency))); // y(t) = A sin(2pi*f*t + p) = A sin(w*t + p)
-//            sinBuffer[i] = (short) (sinSound[i] * Short.MAX_VALUE);
-//        }
-//
-//        audioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
-//        audioTrack.play();
-//
-//        audioTrack.write(sinBuffer, 0, sinSound.length);
-//        audioTrack.stop();
-//        audioTrack.release();
-//    }
+    private void sineGenerator(int frequency, int duration){
+        // 44100 is the equivalent of 1 second
+        // ex) play(1500, 44100) => play a 1500Hz sound for one second
+
+        int playDuration = duration * 44100; // change second to duration
+        int bufferSize = AudioTrack.getMinBufferSize(44100,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT);
+
+        AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
+                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+                bufferSize, AudioTrack.MODE_STREAM);
+
+        // sine wave
+        double[] sinSound = new double[44100];
+        short[] sinBuffer = new short[playDuration];
+        for(int i = 0; i < sinSound.length; i++){
+            sinSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency))); // y(t) = A sin(2pi*f*t + p) = A sin(w*t + p)
+            sinBuffer[i] = (short) (sinSound[i] * Short.MAX_VALUE);
+        }
+
+        audioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
+        audioTrack.play();
+
+        audioTrack.write(sinBuffer, 0, sinSound.length);
+        audioTrack.stop();
+        audioTrack.release();
+    }
 }
