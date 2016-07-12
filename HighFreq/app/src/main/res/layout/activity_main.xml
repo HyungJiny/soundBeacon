@@ -15,7 +15,8 @@
         android:text="sound play"
         android:id="@+id/play_button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp" />
 
     <SeekBar
         android:layout_width="match_parent"
