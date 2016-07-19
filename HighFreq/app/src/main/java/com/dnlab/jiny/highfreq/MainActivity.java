@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     // PlayWave Test
     PlayWave playWave = new PlayWave();
 
+    //SineWaveGenerator Test
+    SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
         wavePlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playWave.setWave((int) frequencyOfTune);
+                //playWave.setWave((int) frequencyOfTune);
+                sineWaveGenerator.setFrequencyHz((double) frequencyOfTune);
                 if(!isplay){
-                    playWave.start();
+                    //playWave.start();
+                    sineWaveGenerator.tonePlay();
                     //playWave.sineGenerator((int) frequencyOfTune, 10);
-                    isplay = true;
+                    //isplay = true;
                 }
             }
         });
@@ -71,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isplay){
-                    playWave.stop();
+                    //playWave.stop();
+                    sineWaveGenerator.toneStop();
                     isplay = false;
                 }
             }

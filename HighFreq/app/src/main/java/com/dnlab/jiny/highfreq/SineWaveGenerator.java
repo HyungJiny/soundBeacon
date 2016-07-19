@@ -14,7 +14,7 @@ public class SineWaveGenerator {
 
     public SineWaveGenerator(){
         this.frequencyHz = 440;
-        this.durationMs = 250;
+        this.durationMs = 2500;
     }
 
     public SineWaveGenerator(double frequency, int duration){
@@ -41,10 +41,12 @@ public class SineWaveGenerator {
     public void tonePlay(){
         generateTone();
         audioTrack.play();
+        isplay = true;
     }
 
     public void toneStop(){
         audioTrack.stop();
+        isplay = false;
     }
 
     public void setFrequencyHz(double frequency){
