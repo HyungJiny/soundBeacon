@@ -4,9 +4,6 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-/**
- * Created by jiny on 7/12/16.
- */
 public class PlayWave {
 
     private final int SAMPLE_RATE = 44100;
