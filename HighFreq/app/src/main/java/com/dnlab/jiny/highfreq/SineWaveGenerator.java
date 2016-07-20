@@ -38,19 +38,23 @@ public class SineWaveGenerator {
         return audioTrack;
     }
 
-    public void tonePlay(){
+    public void play(){
         generateTone();
         audioTrack.play();
         isplay = true;
     }
 
-    public void toneStop(){
+    public void stop(){
         audioTrack.stop();
         isplay = false;
     }
 
+    public boolean isPlay(){
+        return isplay;
+    }
+
     public void setFrequencyHz(double frequency){
-        this.frequencyHz = frequency;
+        this.frequencyHz = frequency / 2;
     }
 
     public void setDurationMs(int duration){

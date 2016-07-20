@@ -1,9 +1,5 @@
 package com.dnlab.jiny.highfreq;
 
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +10,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private double frequencyOfTune = 440; // hz
-    private boolean isplay = false;
 
     Button wavePlayButton;
     Button waveStopButton;
     SeekBar frequencySeekBar;
     TextView frequencyValue;
-
-    // PlayWave Test
-    PlayWave playWave = new PlayWave();
 
     //SineWaveGenerator Test
     SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
@@ -60,13 +52,9 @@ public class MainActivity extends AppCompatActivity {
         wavePlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //playWave.setWave((int) frequencyOfTune);
                 sineWaveGenerator.setFrequencyHz((double) frequencyOfTune);
-                if(!isplay){
-                    //playWave.start();
-                    sineWaveGenerator.tonePlay();
-                    //playWave.sineGenerator((int) frequencyOfTune, 10);
-                    //isplay = true;
+                if(!sineWaveGenerator.isPlay()){
+                    sineWaveGenerator.play();
                 }
             }
         });
@@ -75,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
         waveStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isplay){
-                    //playWave.stop();
-                    sineWaveGenerator.toneStop();
-                    isplay = false;
+                if(sineWaveGenerator.isPlay()){
+                    sineWaveGenerator.stop();
                 }
             }
         });
