@@ -10,7 +10,7 @@ def plotSpectrum(y, Fs):
 	frq = frq[range(n/2)]
 
 	Y = fft(y)/n
-	Y = Y[ramge(n/2)]
+	Y = Y[range(n/2)]
 
 	plot(frq, abs(Y), 'r')
 	xlabel('Freq (Hz)')
