@@ -20,12 +20,12 @@ public class ConvertAscii {
         }
     }
 
-    public byte[] getAscii(){
-        return ascii;
-    }
-
     public String getCode(){
         return code.toString();
+    }
+
+    public String getInputMessage(){
+        return inputMessage;
     }
 
 }
