@@ -56,7 +56,21 @@ public class MainActivity extends AppCompatActivity {
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                SineWaveGenerator bitSine = new SineWaveGenerator();
+                bitSine.setDurationMs(gapTime);
+                for(int i=0; i < asciiCode.length(); i++) {
+                    if (convertAscii.getCode().charAt(i) == '0') {
+                        bitSine.setFrequencyHz(BIT0);
+                    } else {
+                        bitSine.setFrequencyHz(BIT1);
+                    }
+                    bitSine.play();
+                    try {
+                        Thread.sleep(500);
+                    }catch (InterruptedException error){
+
+                    }
+                }
             }
         });
 
