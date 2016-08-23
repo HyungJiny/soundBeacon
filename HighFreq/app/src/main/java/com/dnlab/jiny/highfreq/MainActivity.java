@@ -10,6 +10,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private double frequencyOfTune = 440; // hz
+    private double BIT0 = 18500;
+    private double BIT1 = 19500;
 
     Button wavePlayButton;
     Button waveStopButton;
@@ -53,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sineWaveGenerator.setFrequencyHz((double) frequencyOfTune);
-                if(!sineWaveGenerator.isPlay()){
-                    sineWaveGenerator.play();
-                }
+                sineWaveGenerator.play();
             }
         });
 
@@ -63,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         waveStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sineWaveGenerator.isPlay()){
-                    sineWaveGenerator.stop();
-                }
+                sineWaveGenerator.stop();
             }
         });
 
