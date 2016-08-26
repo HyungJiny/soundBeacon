@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private double frequencyOfTune = 440; // hz
     private double BIT0 = 18500; // hz
     private double BIT1 = 19500; // hz
-    private int gapTime = 500; //ms
+    private int gapTime = 500; // ms
     private String toConvertText;
     private String asciiCode;
 
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     TextView frequencyValue;
 
     EditText inputText;
-
 
     //SineWaveGenerator Test
     SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     bitSine.play();
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(gapTime);
                     }catch (InterruptedException error){
 
                     }

@@ -17,6 +17,9 @@ capture_setting = {
 
 def spectrumAnalyzer():
 	global fftLen, capture_setting, signal_scale
+	##########################
+	# Capture Sound from Mic #
+	##########################
 	ch = capture_setting["ch"]
 	fs = capture_setting["fs"]
 	chunk = capture_setting["chunk"]
@@ -28,6 +31,9 @@ def spectrumAnalyzer():
 
 	signal = zeros(fftLen, dtype = float)
 
+	##########
+	# Layout #
+	##########
 	app = QtGui.QApplication([])
 	app.quitOnLastWindowClosed()
 
@@ -57,16 +63,19 @@ def spectrumAnalyzer():
 
 	lay.addWidget(specWid)
 
-	mainWindow.show()
+	#mainWindow.show()
 
-	while 1:
+	# update
+	for time in range(100):
 		length, data = inPCM.read()
 		num_data = fromstring(data, dtype = "int16")
 		signal = roll(signal, - chunk)
 		signal[- chunk :] = num_data
 		fftspec = fft(signal)
-		specItem.plot(abs(fftspec[1 : fftLen / 2 + 1] * signal_scale), clear = True)
-		QtGui.QApplication.processEvents()
+
+		print signal[1800:1900]
+		#specItem.plot(abs(fftspec[1 : fftLen / 2 + 1] * signal_scale), clear = True)
+		#QtGui.QApplication.processEvents()
 
 if __name__ == "__main__":
 	spectrumAnalyzer()
