@@ -7,7 +7,15 @@ chunk = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 20
+RECORD_SECONDS = 10
+
+isPlayed = False
+isNextbit = False
+bitcount = 6
+finalCode = 0
+
+prevFreq = 0
+pingCount = 2
 
 def Pitch(signal):
 	signal = np.fromstring(signal, 'Int16')
@@ -16,12 +24,46 @@ def Pitch(signal):
 	f0 = round(len(index) * RATE / (2*np.prod(len(signal))))
 	return f0;
 
-p = pyaudio.PyAudio()
 
-stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True, frames_per_buffer=chunk)
+if __name__ == '__main__':
+	p = pyaudio.PyAudio()
 
-for i in range(0, RATE / chunk * RECORD_SECONDS):
-	data = stream.read(chunk)
-	Frequency = Pitch(data)
-	if Frequency >= 10000:
-		print "%.2f Frequency" %Frequency
+	stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True, frames_per_buffer=chunk)
+
+	for i in range(0, RATE / chunk * RECORD_SECONDS):
+		data = stream.read(chunk)
+		frequency = Pitch(data)
+	
+		if frequency >= 18000:
+			isPlayed = True
+			print "%.2f Frequency" %frequency
+
+		if isPlayed and bitcount>=0:
+			if frequency >= 18400 and frequency <= 18600 and not isNextbit:
+				isNextbit = True
+				finalCode += 0
+				currentBit = 0
+			elif frequency >= 19400 and frequency <= 19600 and not isNextbit:
+				isNextbit = True
+				finalCode += pow(2, bitcount)
+				currentBit = 1
+		
+		dif = prevFreq - frequency
+		if isPlayed and dif >= 500 and frequency <= 18000:
+		#if isPlayed and frequency <= 18300:
+			pingCount -= 1
+			if pingCount < 1:
+				isNextbit = False
+				print 'present bit : ', bitcount
+				print 'current bit : ', currentBit
+				bitcount -= 1
+				pingCount = 2
+		
+		if bitcount<0:
+			isPlayed = False
+			break
+		prevFreq = frequency
+	
+	print finalCode
+	print chr(finalCode)
+

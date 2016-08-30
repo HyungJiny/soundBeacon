@@ -63,7 +63,7 @@ def spectrumAnalyzer():
 
 	lay.addWidget(specWid)
 
-	#mainWindow.show()
+	mainWindow.show()
 
 	# update
 	for time in range(100):
@@ -74,8 +74,8 @@ def spectrumAnalyzer():
 		fftspec = fft(signal)
 
 		print signal[1800:1900]
-		#specItem.plot(abs(fftspec[1 : fftLen / 2 + 1] * signal_scale), clear = True)
-		#QtGui.QApplication.processEvents()
+		specItem.plot(abs(fftspec[1 : fftLen / 2 + 1] * signal_scale), clear = True)
+		QtGui.QApplication.processEvents()
 
 if __name__ == "__main__":
 	spectrumAnalyzer()
