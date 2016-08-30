@@ -23,4 +23,5 @@ stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=
 for i in range(0, RATE / chunk * RECORD_SECONDS):
 	data = stream.read(chunk)
 	Frequency = Pitch(data)
-	print "%f Frequency" %Frequency
+	if Frequency >= 10000:
+		print "%.2f Frequency" %Frequency
