@@ -37,7 +37,7 @@ if __name__ == '__main__':
 		#print i
 		if frequency >= 18000:
 			isPlayed = True
-			print "%.2f Frequency" %frequency
+			#print "%.2f Frequency" %frequency
 
 		if isPlayed and bitcount>=0:
 			if frequency >= 18400 and frequency <= 18550 and not isNextbit:
