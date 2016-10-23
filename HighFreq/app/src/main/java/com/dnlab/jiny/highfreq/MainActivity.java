@@ -10,27 +10,18 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private double frequencyOfTune = 440; // hz
-    private double BIT0 = 18500; // hz
-    private double BIT1 = 19500; // hz
-    private int gapTime = 500; // ms
+    private final double BIT0 = 18500; // hz
+    private final double BIT1 = 19500; // hz
+    private final double STARTBIT = 19000; // hz
+    private final int gapTime = 200; // ms
+    private final int signalDuration = 500; // ms
     private String toConvertText;
     private String asciiCode;
 
-//    Button wavePlayButton;
-//    Button waveStopButton;
     Button textConvertButton;
     Button generateButton;
-
-//    SeekBar frequencySeekBar;
-
     TextView asciiCodeView;
-//    TextView frequencyValue;
-
     EditText inputText;
-
-    //SineWaveGenerator Test
-//    SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
     ConvertAscii convertAscii;
 
     @Override
@@ -57,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SineWaveGenerator bitSine = new SineWaveGenerator();
                 bitSine.setDurationMs(gapTime);
+                playStartSignal();
                 for(int i=0; i < asciiCode.length(); i++) {
                     if (convertAscii.getCode().charAt(i) == '0') {
                         bitSine.setFrequencyHz(BIT0);
@@ -64,59 +56,24 @@ public class MainActivity extends AppCompatActivity {
                         bitSine.setFrequencyHz(BIT1);
                     }
                     bitSine.play();
-                    try {
-                        Thread.sleep(gapTime);
-                    }catch (InterruptedException error){
-
-                    }
+//                    try {
+//                        Thread.sleep(gapTime);
+//                    }catch (InterruptedException error){
+//                        System.out.println(error);
+//                    }
                 }
             }
         });
+    }
 
-
-        // 원하는 주파수를 조정해서 발생시키는 코드
-
-       /* frequencySeekBar = (SeekBar) findViewById(R.id.frequency_seekBar);
-        frequencyValue = (TextView) findViewById(R.id.frequency_value_textView);
-        frequencySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                if(progress < 20){
-                    progress = 20;
-                    seekBar.setProgress(progress);
-                }
-                frequencyValue.setText("현재 주파수 : " + progress + "Hz");
-                frequencyOfTune = (double) progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-
-        /*wavePlayButton = (Button) findViewById(R.id.play_button);
-        wavePlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sineWaveGenerator.setFrequencyHz((double) frequencyOfTune);
-                sineWaveGenerator.play();
-            }
-        });
-
-        waveStopButton = (Button) findViewById(R.id.stop_button);
-        waveStopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sineWaveGenerator.stop();
-            }
-        });
-*/
+    private void playStartSignal(){
+        SineWaveGenerator sineWaveGenerator = new SineWaveGenerator(STARTBIT, signalDuration);
+        sineWaveGenerator.play();
+//        try {
+//            Thread.sleep(gapTime);
+//        }catch (InterruptedException error){
+//            System.out.println(error);
+//        }
     }
 
 }

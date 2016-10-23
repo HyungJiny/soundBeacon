@@ -11,13 +11,10 @@ public class SineWaveGenerator {
 
     private AudioTrack audioTrack;
 
-    public SineWaveGenerator(){
-        this.frequencyHz = 440;
-        this.durationMs = 2500;
-    }
+    public SineWaveGenerator(){    }
 
     public SineWaveGenerator(double frequency, int duration){
-        this.frequencyHz = frequency;
+        this.frequencyHz = frequency / 2;
         this.durationMs = duration;
     }
 
@@ -40,6 +37,11 @@ public class SineWaveGenerator {
     public void play(){
         generateTone();
         audioTrack.play();
+        try {
+            Thread.sleep(durationMs);
+        }catch (InterruptedException error){
+            System.out.println(error);
+        }
     }
 
     public void stop(){
