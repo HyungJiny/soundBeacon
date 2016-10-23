@@ -1,4 +1,3 @@
-from matplotlib.mlab import find
 import pyaudio
 import numpy as np
 import math
@@ -20,18 +19,25 @@ pingCount = 2
 def Pitch(signal):
 	signal = np.fromstring(signal, 'Int16')
 	crossing = [math.copysign(1.0, s) for s in signal]
-	index = find(np.diff(crossing))
+	index = list()
+	#index.append((crossing.index(i) if i != 0 for i in crossing))
+	for i in crossing:
+		if i != 0:
+			index.append(crossing.index(i))
+
+	print(index)
+	#index = find(np.diff(crossing))
 	f0 = round(len(index) * RATE / (2*np.prod(len(signal))))	
 	return f0;
-
 
 if __name__ == '__main__':
 	p = pyaudio.PyAudio()
 
 	stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True, frames_per_buffer=chunk)
 
-	for i in range(0, RATE / chunk * RECORD_SECONDS):
+	for i in range(0, round(RATE / chunk * RECORD_SECONDS)):
 		data = stream.read(chunk)
+
 		frequency = Pitch(data)
 	
 		#print i
@@ -57,8 +63,8 @@ if __name__ == '__main__':
 			pingCount -= 1
 			if pingCount < 0:
 				isNextbit = False
-				print 'present bit : ', bitcount
-				print 'current bit : ', currentBit
+				print('present bit : ', bitcount)
+				print('current bit : ', currentBit)
 				bitcount -= 1
 				pingCount = 2
 		
@@ -66,6 +72,6 @@ if __name__ == '__main__':
 			isPlayed = False
 			break
 	
-	print finalCode
-	print chr(finalCode)
+	print(finalCode)
+	print(chr(finalCode))
 
