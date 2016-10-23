@@ -26,6 +26,15 @@
             android:text="Convert"
             android:layout_gravity="center" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,19 +48,21 @@
             android:layout_width="wrap_content"
             android:textSize="15dp"
             android:text="Generate"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
     </LinearLayout>
+    <!-- <Button
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="wave play"
+         android:id="@+id/play_button"
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="62dp" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="wave play"
-        android:id="@+id/play_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp" />
-
-    <SeekBar
+    <!--<SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frequency_seekBar"
@@ -85,14 +96,14 @@
         android:text="20Hz"
         android:id="@+id/min_freq_textView"
         android:layout_alignBottom="@+id/frequency_value_textView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" />-->
 
-    <Button
+   <!-- <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="wave stop"
         android:id="@+id/stop_button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
 </RelativeLayout>

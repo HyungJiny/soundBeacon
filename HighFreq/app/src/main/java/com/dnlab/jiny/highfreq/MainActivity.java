@@ -10,27 +10,27 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private double frequencyOfTune = 440; // hz
+//    private double frequencyOfTune = 440; // hz
     private double BIT0 = 18500; // hz
     private double BIT1 = 19500; // hz
     private int gapTime = 500; // ms
     private String toConvertText;
     private String asciiCode;
 
-    Button wavePlayButton;
-    Button waveStopButton;
+//    Button wavePlayButton;
+//    Button waveStopButton;
     Button textConvertButton;
     Button generateButton;
 
-    SeekBar frequencySeekBar;
+//    SeekBar frequencySeekBar;
 
     TextView asciiCodeView;
-    TextView frequencyValue;
+//    TextView frequencyValue;
 
     EditText inputText;
 
     //SineWaveGenerator Test
-    SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
+//    SineWaveGenerator sineWaveGenerator = new SineWaveGenerator();
     ConvertAscii convertAscii;
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 원하는 주파수를 조정해서 발생시키는 코드
 
-        frequencySeekBar = (SeekBar) findViewById(R.id.frequency_seekBar);
+       /* frequencySeekBar = (SeekBar) findViewById(R.id.frequency_seekBar);
         frequencyValue = (TextView) findViewById(R.id.frequency_value_textView);
         frequencySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        });*/
 
-        wavePlayButton = (Button) findViewById(R.id.play_button);
+        /*wavePlayButton = (Button) findViewById(R.id.play_button);
         wavePlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 sineWaveGenerator.stop();
             }
         });
-
+*/
     }
 
 }
