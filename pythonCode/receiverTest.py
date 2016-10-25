@@ -1,3 +1,4 @@
+from matplotlib.mlab import find
 import pyaudio
 import numpy as np
 import math
@@ -21,12 +22,12 @@ def Pitch(signal):
 	crossing = [math.copysign(1.0, s) for s in signal]
 	index = list()
 	#index.append((crossing.index(i) if i != 0 for i in crossing))
-	for i in crossing:
-		if i != 0:
-			index.append(crossing.index(i))
+	#for i in crossing:
+	#	if i != 0:
+	#		index.append(crossing.index(i))
 
-	print(index)
-	#index = find(np.diff(crossing))
+	#print(index)
+	index = find(np.diff(crossing))
 	f0 = round(len(index) * RATE / (2*np.prod(len(signal))))	
 	return f0;
 
