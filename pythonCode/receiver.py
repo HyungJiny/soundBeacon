@@ -9,7 +9,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 
-signal_gap = 0.15
+signal_gap = 0.1
 
 def _streamTofrequency(stream):
 	"""
@@ -42,7 +42,7 @@ def catchStartSignal(stream):
 	while(True):
 	#for i in range(during_time):
 		frequency = _streamTofrequency(stream)
-		print(frequency)
+		# print(frequency)
 		if checkSignal(frequency) == 2:
 			counter += 1
 			#if counter >= allow and counter <= during_time:
@@ -57,14 +57,16 @@ def checkSignal(frequency):
 	"""
 	global signal_gap
 
-	if frequency >= 18400 and frequency <= 18500:
+	if frequency >= 18440 and frequency <= 18500:
 		#for i in range(durationTime(signal_gap)): print("waiting")
 		return 0 # bit 0
-	elif frequency >= 19400 and frequency <= 19500:
+	elif frequency >= 19440 and frequency <= 19500:
 		#for i in range(durationTime(signal_gap)): print("waiting")
 		return 1 # bit 1
 	elif frequency >= 18900 and frequency <=19000:
 		return 2 # bit start signal
+	elif frequency <= 18200:
+		return -2
 	else:
 		return -1
 
@@ -85,6 +87,7 @@ def receiveSignal(stream):
 	end_count = 0
 	isSameSignal = False
 	sameSignalCount = 0
+	prev_signal = -1
 
 	while isnotSignalEnd:
 		frequency = _streamTofrequency(stream)
@@ -92,24 +95,35 @@ def receiveSignal(stream):
 		print(signal, frequency)
 		if signal == 1 or signal == 0:
 			end_count = 0
-			if isSameSignal:
+			if isSameSignal and signal == prev_signal:
+			#if isSameSignal:
 				print("same signal")
 				continue
 			else:
-				if sameSignalCount > 0:
-					signal_list.append(signal)
-					isSameSignal = True
-				else:
-					sameSignalCount += 1
+				signal_list.append(signal)
+				isSameSignal = True
+				#if sameSignalCount < 1:
+				#	signal_list.append(signal)
+				#	isSameSignal = True
+				#else:
+				#	sameSignalCount += 1
+			prev_signal = signal
 
 		elif signal == 2:
 			continue
-		else:
+		elif signal == -2:
 			end_count += 1
-			isSameSignal = False
-			sameSignalCount = 0
+			if end_count >= 2:
+				isSameSignal = False
 			if end_count >= 20:
 				isnotSignalEnd = False
+		else:
+			#end_count += 1
+			end_count = 0
+			isSameSignal = False
+			sameSignalCount = 0
+			#if end_count >= 20:
+			#	isnotSignalEnd = False
 
 	return signal_list
 
@@ -144,7 +158,7 @@ def main():
 		signal_list = receiveSignal(stream)
 		result = asciiToString(signal_list)
 
-	print("\nSignal list : ", signal_list)
+	print("\nSignal list : ", signal_list, len(signal_list))
 	if len(result) <= 0:
 		print("\nCan't receive Signal\n")
 	else:
