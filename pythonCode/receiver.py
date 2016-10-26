@@ -58,10 +58,10 @@ def checkSignal(frequency):
 	global signal_gap
 
 	if frequency >= 18400 and frequency <= 18500:
-		for i in range(durationTime(signal_gap)): print("waiting")
+		#for i in range(durationTime(signal_gap)): print("waiting")
 		return 0 # bit 0
 	elif frequency >= 19400 and frequency <= 19500:
-		for i in range(durationTime(signal_gap)): print("waiting")
+		#for i in range(durationTime(signal_gap)): print("waiting")
 		return 1 # bit 1
 	elif frequency >= 18900 and frequency <=19000:
 		return 2 # bit start signal
@@ -84,6 +84,7 @@ def receiveSignal(stream):
 	isnotSignalEnd = True
 	end_count = 0
 	isSameSignal = False
+	sameSignalCount = 0
 
 	while isnotSignalEnd:
 		frequency = _streamTofrequency(stream)
@@ -95,13 +96,18 @@ def receiveSignal(stream):
 				print("same signal")
 				continue
 			else:
-				signal_list.append(signal)
-				isSameSignal = True
+				if sameSignalCount > 0:
+					signal_list.append(signal)
+					isSameSignal = True
+				else:
+					sameSignalCount += 1
+
 		elif signal == 2:
 			continue
 		else:
 			end_count += 1
 			isSameSignal = False
+			sameSignalCount = 0
 			if end_count >= 20:
 				isnotSignalEnd = False
 
