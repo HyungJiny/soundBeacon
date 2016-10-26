@@ -11,6 +11,13 @@ RATE = 44100
 
 signal_gap = 0.1
 
+def durationTime(second):
+	"""
+	calcurate during time
+	"""
+	global RATE, chunck
+	return round(RATE / chunk * second)
+
 def _streamTofrequency(stream):
 	"""
 	stream read data
@@ -42,11 +49,9 @@ def catchStartSignal(stream):
 	while(True):
 	#for i in range(during_time):
 		frequency = _streamTofrequency(stream)
-		# print(frequency)
+		#print(frequency)
 		if checkSignal(frequency) == 2:
 			counter += 1
-			#if counter >= allow and counter <= during_time:
-			#	return True
 			return True
 	return False
 
@@ -57,25 +62,20 @@ def checkSignal(frequency):
 	"""
 	global signal_gap
 
-	if frequency >= 18440 and frequency <= 18500:
-		#for i in range(durationTime(signal_gap)): print("waiting")
-		return 0 # bit 0
-	elif frequency >= 19440 and frequency <= 19500:
-		#for i in range(durationTime(signal_gap)): print("waiting")
-		return 1 # bit 1
+	if frequency >= 18300 and frequency <= 18400:
+		return 0 # bit 00
+	elif frequency >= 18700 and frequency <= 18800:
+		return 1 # bit 01
+	elif frequency >= 19100 and frequency <= 19200:
+		return 2 # bit 10
+	elif frequency >= 19500 and frequency <= 19600:
+		return 3 # bit 11
 	elif frequency >= 18900 and frequency <=19000:
-		return 2 # bit start signal
+		return -1 # bit start signal
 	elif frequency <= 18200:
 		return -2
 	else:
-		return -1
-
-def durationTime(second):
-	"""
-	calcurate during time
-	"""
-	global RATE, chunck
-	return round(RATE / chunk * second);
+		return -3
 
 def receiveSignal(stream):
 	"""
@@ -86,30 +86,22 @@ def receiveSignal(stream):
 	isnotSignalEnd = True
 	end_count = 0
 	isSameSignal = False
-	sameSignalCount = 0
 	prev_signal = -1
 
 	while isnotSignalEnd:
 		frequency = _streamTofrequency(stream)
 		signal = checkSignal(frequency)
 		print(signal, frequency)
-		if signal == 1 or signal == 0:
+		if signal >= 0 and signal <= 3:
 			end_count = 0
 			if isSameSignal and signal == prev_signal:
-			#if isSameSignal:
 				print("same signal")
 				continue
 			else:
 				signal_list.append(signal)
 				isSameSignal = True
-				#if sameSignalCount < 1:
-				#	signal_list.append(signal)
-				#	isSameSignal = True
-				#else:
-				#	sameSignalCount += 1
 			prev_signal = signal
-
-		elif signal == 2:
+		elif signal == -1:
 			continue
 		elif signal == -2:
 			end_count += 1
@@ -118,12 +110,11 @@ def receiveSignal(stream):
 			if end_count >= 20:
 				isnotSignalEnd = False
 		else:
-			#end_count += 1
-			end_count = 0
-			isSameSignal = False
-			sameSignalCount = 0
-			#if end_count >= 20:
-			#	isnotSignalEnd = False
+			if end_count > 1:
+				end_count = 0
+				isSameSignal = False
+			else:
+				end_count += 1
 
 	return signal_list
 
@@ -131,17 +122,17 @@ def asciiToString(ascii_list):
 	"""
 	Ascii bit data change to String list
 	"""
-	bit_index = 6
+	bit_index = 2
 	charic = 0
 	string_list = list()
 
 	for bit in ascii_list:
-		if bit == 1:
-			charic += pow(2, bit_index)
+		charic += bit*pow(4, bit_index)
 		bit_index -= 1
 
 		if bit_index < 0:
-			bit_index = 6
+			bit_index = 2
+			charic += 64
 			string_list.append(chr(charic))
 			charic = 0
 
