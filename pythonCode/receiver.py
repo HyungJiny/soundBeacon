@@ -9,15 +9,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 
-signal_gap = 1
-
-RECORD_SECONDS = 10
-isPlayed = False
-isNextbit = False
-bitcount = 6
-finalCode = 0
-prevFreq = 0
-pingCount = 2
+signal_gap = 0.15
 
 def _streamTofrequency(stream):
 	"""
@@ -44,22 +36,19 @@ def catchStartSignal(stream):
 	"""
 	global chunk
 	counter = 0
-	allow = 19
+	allow = 4
 
+	during_time = durationTime(0.5)
 	while(True):
+	#for i in range(during_time):
 		frequency = _streamTofrequency(stream)
 		print(frequency)
-		if frequency >= 18900 and frequency <= 19000:
-			counter = _catchStartSignal(frequency, counter)
-		if counter >= allow and counter <= durationTime(0.5):
+		if checkSignal(frequency) == 2:
+			counter += 1
+			#if counter >= allow and counter <= during_time:
+			#	return True
 			return True
-			break
-
 	return False
-
-def _catchStartSignal(freq, count):
-	if freq >=18900 and freq <= 19000:
-		return count+1
 
 def checkSignal(frequency):
 	"""
@@ -69,11 +58,13 @@ def checkSignal(frequency):
 	global signal_gap
 
 	if frequency >= 18400 and frequency <= 18500:
-		time.sleep(signal_gap)
-		return 0
+		for i in range(durationTime(signal_gap)): print("waiting")
+		return 0 # bit 0
 	elif frequency >= 19400 and frequency <= 19500:
-		time.sleep(signal_gap)
-		return 1
+		for i in range(durationTime(signal_gap)): print("waiting")
+		return 1 # bit 1
+	elif frequency >= 18900 and frequency <=19000:
+		return 2 # bit start signal
 	else:
 		return -1
 
@@ -90,14 +81,30 @@ def receiveSignal(stream):
 	return bit list
 	"""
 	signal_list = list()
-	isSignalEnd = False
-	while not isSignalEnd:
+	isnotSignalEnd = True
+	end_count = 0
+	isSameSignal = False
+
+	while isnotSignalEnd:
 		frequency = _streamTofrequency(stream)
 		signal = checkSignal(frequency)
-		if signal < 0:
-			isSignalEnd = True
+		print(signal, frequency)
+		if signal == 1 or signal == 0:
+			end_count = 0
+			if isSameSignal:
+				print("same signal")
+				continue
+			else:
+				signal_list.append(signal)
+				isSameSignal = True
+		elif signal == 2:
+			continue
 		else:
-			signal_list.append(signal)
+			end_count += 1
+			isSameSignal = False
+			if end_count >= 20:
+				isnotSignalEnd = False
+
 	return signal_list
 
 def asciiToString(ascii_list):
@@ -122,6 +129,7 @@ def asciiToString(ascii_list):
 
 def main():
 	global FORMAT, CHANNELS, RATE, chunk
+	result = list()
 
 	audio = pyaudio.PyAudio()
 	stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True, frames_per_buffer=chunk)
@@ -130,7 +138,11 @@ def main():
 		signal_list = receiveSignal(stream)
 		result = asciiToString(signal_list)
 
-	print(result)
+	print("\nSignal list : ", signal_list)
+	if len(result) <= 0:
+		print("\nCan't receive Signal\n")
+	else:
+		print("\nResult : ",result)
 
 if __name__ == "__main__" :
 	main()
