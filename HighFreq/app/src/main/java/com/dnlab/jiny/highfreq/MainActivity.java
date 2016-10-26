@@ -12,8 +12,8 @@ public class MainActivity extends AppCompatActivity {
     private final double BIT0 = 18500; // hz
     private final double BIT1 = 19500; // hz
     private final double STARTBIT = 19000; // hz
-    private final int gapTime = 110; // ms
-    private final int startSignalDuration = 100; // ms
+    private final int gapTime = 100; // ms
+    private final int startSignalDuration = 300; // ms
     private String toConvertText;
     private String asciiCode;
 
@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
                         bitSine.setFrequencyHz(BIT1);
                     }
                     bitSine.play();
-//                    try {
-//                        Thread.sleep(gapTime);
-//                    }catch (InterruptedException error){
-//                        System.out.println(error);
-//                    }
+                    try {
+                        Thread.sleep(30);
+                    }catch (InterruptedException error){
+                        System.out.println(error);
+                   }
                 }
             }
         });
