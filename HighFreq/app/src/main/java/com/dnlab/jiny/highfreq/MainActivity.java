@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final double BIT0 = 18500; // hz
-    private final double BIT1 = 19500; // hz
+    private final double BIT00 = 18400; // hz
+    private final double BIT01 = 18800; //hz
+    private final double BIT10 = 19200; // hz
+    private final double BIT11 = 19600; //hz
     private final double STARTBIT = 19000; // hz
     private final int gapTime = 100; // ms
     private final int startSignalDuration = 300; // ms
@@ -48,11 +50,21 @@ public class MainActivity extends AppCompatActivity {
                 SineWaveGenerator bitSine = new SineWaveGenerator();
                 bitSine.setDurationMs(gapTime);
                 playStartSignal();
-                for(int i=0; i < asciiCode.length(); i++) {
+                for(int i=1; i < asciiCode.length(); i=i+2) {
                     if (convertAscii.getCode().charAt(i) == '0') {
-                        bitSine.setFrequencyHz(BIT0);
-                    } else {
-                        bitSine.setFrequencyHz(BIT1);
+                        if(convertAscii.getCode().charAt(i+1) == '0'){
+                            bitSine.setFrequencyHz(BIT00);
+                        }else{
+                            bitSine.setFrequencyHz(BIT01);
+                        }
+                        //bitSine.setFrequencyHz(BIT0);
+                    } else if(convertAscii.getCode().charAt(i) == '1') {
+                        if(convertAscii.getCode().charAt(i+1) == '0'){
+                            bitSine.setFrequencyHz(BIT10);
+                        }else{
+                            bitSine.setFrequencyHz(BIT11);
+                        }
+                        //bitSine.setFrequencyHz(BIT1);
                     }
                     bitSine.play();
                     try {
